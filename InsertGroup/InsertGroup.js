@@ -7,4 +7,8 @@ app.listen(3000, ()=>{
     console.log("listennig")
 });
 
+app.get('/getter', (req,res)=>{
+res.send("fuck");
+})
+
 module.exports = router;
