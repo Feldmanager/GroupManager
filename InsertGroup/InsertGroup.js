@@ -1,15 +1,15 @@
 const express = require('express');
-const app = express();
 var router = express.Router()
+var bodyParser = require('body-parser')
 
 
-app.listen(3000, ()=>{
-    console.log("listenniggggg")
-});
+router.use(bodyParser.urlencoded({ extended: false }))
+router.use(bodyParser.json())
 
-app.post('/Insert', (req,res)=>{
+
+router.post('/Insert', (req,res)=>{
     var sql = require("mssql");
-
+ 
     // config for your database
     var config = {
         user: 'feldmanager',
@@ -27,7 +27,7 @@ app.post('/Insert', (req,res)=>{
         var request = new sql.Request();
            
         // query to the database and get the records
-        request.query('insert into Groups (TypeId,GroupName) values (${req.body.TypeId}, ${req.body.GroupName})', function (err, recordset) {
+        request.query(`INSERT INTO Groups (TypeId,GroupName) VALUES (${parseInt(req.body.TypeId)}, ${(req.body.GroupName).toString()})`, function (err, recordset) {
             
             if (err) console.log(err)
 
@@ -38,9 +38,5 @@ app.post('/Insert', (req,res)=>{
     });
 });
 
-
-app.post('/check', (req,res)=>{
-    console.log("success");
-});
 
 module.exports = router;
