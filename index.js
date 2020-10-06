@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
-const InsertGroup = require('./InsertGroup/InsertGroup')
+const Group = require('./Group/GroupRoutes');
+const Groups = require('./Groups/GroupsRoutes')
 
 app.listen(3000, ()=>{
-    console.log("listenniggggg")
+    console.log("listening");
 });
 
-app.use('/Group', InsertGroup);
+app.use((err, req, res, next) => {
+    res.status(500).send(err.message);
+  });
+
+app.use('/Group', Group);
+app.use('/Groups', Groups);
