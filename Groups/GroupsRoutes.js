@@ -2,9 +2,13 @@ const express = require('express');
 const router = express.Router()
 const bodyParser = require('body-parser')
 const GroupsHandler = require('./BL/GroupsHandler');
+var sqlinjection = require('sql-injection');
+
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
+router.use(sqlinjection); 
+
 
 router.get('/GroupByUsername/:userName', async (req, res, next) => {
     try{
