@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router()
 const bodyParser = require('body-parser')
+var sqlinjection = require('sql-injection');
 const GroupHandler = require('./BL/GroupHandler');
 
+router.use(sqlinjection); 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
