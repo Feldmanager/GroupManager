@@ -6,9 +6,29 @@ const GroupsHandler = require('./BL/GroupsHandler');
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
-router.get('/:userName', async (req, res, next) => {
+router.get('/GroupByUsername/:userName', async (req, res, next) => {
     try{
-        let result = await GroupsHandler(req.params);
+        let result = await GroupsHandler.GetGroupsByUserName(req.params);
+        res.status(200).send(result);
+    }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+    next();
+});
+router.get('/', async (req, res, next) => {
+    try{
+        let result = await GroupsHandler.GetAllGroups(req.params);
+        res.status(200).send(result);
+    }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+    next();
+});
+router.get('/GroupByTypeId/:typeId', async (req, res, next) => {
+    try{
+        let result = await GroupsHandler.GetGroupsByTypeId(req.params);
         res.status(200).send(result);
     }
     catch(err){
