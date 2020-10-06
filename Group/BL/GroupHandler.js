@@ -8,6 +8,7 @@ const InsertGroup=async (elements)=>
     var query = `EXEC InsertGroup @TypeId=${parseInt(elements.TypeId)}, @GroupName='${(elements.GroupName).toString()}'`;
     var sqlExecute = new SqlHandler();
     result = await sqlExecute.Execute(query);
+    console.log(result);
     return result;
 }
 
