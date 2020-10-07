@@ -19,9 +19,11 @@
   "homepage": "https://github.com/Feldmanager/GroupManager#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "commonframework": "git+https://github.com/Feldmanager/CommonFramework.git#basicCommon",
     "express": "^4.17.1",
     "mssql": "^6.2.3",
     "nodemon": "^2.0.4",
+    "sessionmanager": "git+https://github.com/Feldmanager/SessionManager.git#basicModule",
     "sql-inject-reject": "^0.1.0",
     "sql-injection": "0.0.6",
     "utf8": "^3.0.0"

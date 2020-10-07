@@ -1,22 +1,23 @@
-const val = require('../../Common/Validation')
-const SqlHandler = require('../../DAL/SqlHandler');
+let {SqlHandler, UserInvalidInputError , Validator} = require('commonframework');
+
 
 const GetGroupsByUserName=async (elements)=>
 {
-    var result;
-    val(elements);
-    var query = `EXEC GetGroupsByUserName @UserName='${(elements.userName).toString()}'`;
-    var sqlExecute = new SqlHandler();
+    let result;
+    Validator(elements);
+    let query = `EXEC GetGroupsByUserName @UserName='${(elements.userName).toString()}'`;
+    let sqlExecute = new SqlHandler();
     result = await sqlExecute.Execute(query);
     console.log(result.recordset);
     return result.recordset;
+    
 }
 
-const GetAllGroups = async ()=>
+const GetAllGroups = async ()=>   
 {
-    var result;
-    var query=`EXEC GetAllGroups`;
-    var sqlExecute = new SqlHandler();
+    let result;
+    let query=`EXEC GetAllGroups`;
+    let sqlExecute = new SqlHandler();
     result = await sqlExecute.Execute(query);
     console.log(result.recordset);
     return result.recordset;
@@ -25,10 +26,10 @@ const GetAllGroups = async ()=>
 
 const GetGroupsByTypeId = async (elements)=>
 {
-    var result;
-    val(elements);
-    var query=`EXEC GetGroupsByTypeId @TypeId=${(elements.typeId)}`;
-    var sqlExecute = new SqlHandler();
+    let result;
+    Validator(elements);
+    let query=`EXEC GetGroupsByTypeId @TypeId=${(elements.typeId)}`;
+    let sqlExecute = new SqlHandler();
     result = await sqlExecute.Execute(query);
     console.log(result.recordset);
     return result.recordset;
@@ -36,10 +37,10 @@ const GetGroupsByTypeId = async (elements)=>
 
 const GetGroupByGroupId = async (elements)=>
 {
-    var result;
-    val(elements);
-    var query=`EXEC GetGroupsByGroupId @GroupId=${(elements.groupId)}`;
-    var sqlExecute = new SqlHandler();
+    let result;
+    Validator(elements);
+    let query=`EXEC GetGroupsByGroupId @GroupId=${(elements.groupId)}`;
+    let sqlExecute = new SqlHandler();
     result = await sqlExecute.Execute(query);
     console.log(result.recordset);
     return result.recordset;

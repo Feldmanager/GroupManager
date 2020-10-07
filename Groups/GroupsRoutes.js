@@ -2,15 +2,17 @@ const express = require('express');
 const router = express.Router()
 const bodyParser = require('body-parser')
 const GroupsHandler = require('./BL/GroupsHandler');
-const sqlInjectReject = require('sql-inject-reject');
+let {UserInvalidInputError} = require('commonframework');
 
 
+//#region middleware
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
-router.use(sqlInjectReject({ level: 'paranoid' }));
+//#endregion
 
-
+//#region routes
 router.get('/GroupByUsername/:userName', async (req, res, next) => {
+
     try{
         let result = await GroupsHandler.GetGroupsByUserName(req.params);
         res.status(200).send(result);
@@ -42,6 +44,7 @@ router.get('/GroupsByTypeId/:typeId', async (req, res, next) => {
 });
 
 router.get('/GroupByGroupId/:groupId', async (req, res, next) => {
+    
     try{
         let result = await GroupsHandler.GetGroupByGroupId(req.params);
         res.status(200).send(result);
@@ -51,5 +54,7 @@ router.get('/GroupByGroupId/:groupId', async (req, res, next) => {
     }
     next();
 });
+//#endregion
+
 
 module.exports = router;
