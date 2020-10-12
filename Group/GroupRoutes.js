@@ -2,28 +2,30 @@ const express = require('express');
 const router = express.Router()
 const bodyParser = require('body-parser')
 const GroupHandler = require('./BL/GroupHandler');
-let {UserInvalidInputError} = require('commonframework');
+let {UserInvalidInputError, Permit} = require('commonframework');
 
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
-router.post('/', async (req, res, next) => {
+router.post('/',Permit('Admin') , async (req, res, next) => {
     try{
         let result = await GroupHandler.InsertGroup(req.body);
         res.status(200).send(result);
     }
     catch(err){
         if (err instanceof UserInvalidInputError) {
+            console.log(err);
             res.status(404).send({ errorContent: err.message });
         }
         else {
+            console.log(err);
             res.status(500).send({ errorContent: err.message });
         }    }
     next();
 });
 
-router.delete('/:groupId', async (req, res, next) => {
+router.delete('/:groupId',Permit('Admin'), async (req, res, next) => {
     try{
         let result = await GroupHandler.DeleteGroup(req.params);
         res.status(200).send(result);
@@ -38,7 +40,7 @@ router.delete('/:groupId', async (req, res, next) => {
     next();
 });
 
-router.put('/:groupId', async (req, res, next) => {
+router.put('/:groupId',Permit('Admin'), async (req, res, next) => {
     try{
         let elements = {groupId:req.params.groupId, groupName:req.body.groupName}
         console.log(elements);
@@ -55,7 +57,7 @@ router.put('/:groupId', async (req, res, next) => {
     next();
 });
 
-router.post('/:groupId/Relation', async (req, res, next) => {
+router.post('/:groupId/Relation',Permit('Admin', 'Makas') , async (req, res, next) => {
     try{
         let elements = {groupId:req.params.groupId, userList:req.body.userList}
         let result = await GroupHandler.InsertRelation(elements);
@@ -71,7 +73,7 @@ router.post('/:groupId/Relation', async (req, res, next) => {
     next();
 });
 
-router.delete('/:groupId/Relation', async (req, res, next) => {
+router.delete('/:groupId/Relation',Permit('Admin', 'Makas') , async (req, res, next) => {
     try{
         let elements = {groupId:req.params.groupId, userList:req.body.userList}
         let result = await GroupHandler.DeleteRelation(elements);

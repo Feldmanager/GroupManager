@@ -5,7 +5,7 @@ const GetGroupsByUserName=async (elements)=>
 {
     let result;
     Validator(elements);
-    let query = `EXEC GetGroupsByUserName @UserName='${(elements.userName).toString()}'`;
+    let query = `EXEC GetGroupsByUserName @UserName='${(elements.user).toString()}'`;
     let sqlExecute = new SqlHandler();
     result = await sqlExecute.Execute(query);
     console.log(result.recordset);

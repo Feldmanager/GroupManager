@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 const bodyParser = require('body-parser')
 const GroupsHandler = require('./BL/GroupsHandler');
-let {UserInvalidInputError} = require('commonframework');
+let {UserInvalidInputError, Permit} = require('commonframework');
 
 
 //#region middleware
@@ -14,6 +14,8 @@ router.use(bodyParser.json())
 router.get('/GroupByUsername/:userName', async (req, res, next) => {
 
     try{
+        console.log(req.headers.cookies);
+        console.log(req.body)
         let result = await GroupsHandler.GetGroupsByUserName(req.params);
         res.status(200).send(result);
     }
@@ -22,10 +24,18 @@ router.get('/GroupByUsername/:userName', async (req, res, next) => {
     }
     next();
 });
-router.get('/', async (req, res, next) => {
+router.get('/',Permit('Admin', 'Makas'), async (req, res, next) => {
     try{
-        let result = await GroupsHandler.GetAllGroups(req.params);
-        res.status(200).send(result);
+        let result;
+        console.log(req.role)
+            if(req.role==='Admin'){
+                result = await GroupsHandler.GetAllGroups(req.params);
+            }
+            else if(req.role==='Makas')
+            {
+                result = await GroupsHandler.GetGroupsByUserName({user:req.user});
+            }
+         res.status(200).send(result);
     }
     catch(err){
         res.status(400).send(err.message);
