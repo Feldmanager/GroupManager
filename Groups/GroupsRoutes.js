@@ -14,8 +14,6 @@ router.use(bodyParser.json())
 router.get('/GroupByUsername/:userName', async (req, res, next) => {
 
     try{
-        console.log(req.headers.cookies);
-        console.log(req.body)
         let result = await GroupsHandler.GetGroupsByUserName(req.params);
         res.status(200).send(result);
     }
@@ -24,14 +22,13 @@ router.get('/GroupByUsername/:userName', async (req, res, next) => {
     }
     next();
 });
-router.get('/',Permit('Admin', 'Makas'), async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try{
         let result;
-        console.log(req.role)
             if(req.role==='Admin'){
                 result = await GroupsHandler.GetAllGroups(req.params);
             }
-            else if(req.role==='Makas')
+            else
             {
                 result = await GroupsHandler.GetGroupsByUserName({user:req.user});
             }

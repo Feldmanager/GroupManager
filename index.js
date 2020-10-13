@@ -3,17 +3,8 @@ const app = express();
 const Group = require('./Group/GroupRoutes');
 const Groups = require('./Groups/GroupsRoutes')
 const cors = require('cors')
-const {Authorize,ValidateUser}= require('commonframework')
-
-var corsOptions = {
-    origin: ['http://localhost:3001',
-             'http://10.1.0.19:3001',
-             'http://10.1.0.27:3001',
-             'http://10.1.0.12:3001',
-             'http://10.1.0.17:3001'
-  ],
-    optionsSuccessStatus: 200
-  }
+const {Authorize,ValidateUser, UserInvalidInputError}= require('commonframework')
+const {corsOptions} = require('./Common/config')
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -32,6 +23,18 @@ app.use(ValidateUser)
 
 app.use(Authorize)
 
+function errHandler(err, req, res, next) {
+  if (err) {
+      if (err instanceof UserInvalidInputError){
+          console.log(err)
+          res.status(400).send(err.message)
+      }else{
+        console.log(err)
+          res.status(500).send(err.message)
+      }
+  }
+}
+app.use(errHandler);
 
 app.listen(3000, ()=>{
     console.log("listening");

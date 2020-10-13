@@ -40,7 +40,7 @@ router.delete('/:groupId',Permit('Admin'), async (req, res, next) => {
     next();
 });
 
-router.put('/:groupId',Permit('Admin'), async (req, res, next) => {
+router.put('/:groupId',Permit('Admin', 'Makas'), async (req, res, next) => {
     try{
         let elements = {groupId:req.params.groupId, groupName:req.body.groupName}
         console.log(elements);
@@ -79,13 +79,14 @@ router.delete('/:groupId/Relation',Permit('Admin', 'Makas') , async (req, res, n
         let result = await GroupHandler.DeleteRelation(elements);
         res.status(200).send(result);
     }
-    catch(err){
+    catch (err) {
         if (err instanceof UserInvalidInputError) {
             res.status(404).send({ errorContent: err.message });
         }
         else {
             res.status(500).send({ errorContent: err.message });
-        }    }
+        }
+    }
     next();
 });
 
