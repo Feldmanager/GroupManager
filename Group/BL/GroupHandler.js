@@ -51,14 +51,10 @@ const InsertRelation=async (elements)=>
 const DeleteRelation=async (elements)=>
 {
     let result=[];
-    Validator({"groupId":elements.groupId});
+    Validator(elements);
     var sqlExecute = new SqlHandler();
-    for(obj in elements.userList)
-    {
-        Validator({obj:obj});
-        var query = `EXEC DeleteRelation @GroupId=${parseInt(elements.groupId)}, @Username='${elements.userList[obj].toString()}'`;
-        result.push(await sqlExecute.Execute(query));
-    }
+    var query = `EXEC DeleteRelation @GroupId=${parseInt(elements.groupId)}, @Username='${elements.userName.toString()}'`;
+    result.push(await sqlExecute.Execute(query));
     console.log(result);
     return {result};
 }
