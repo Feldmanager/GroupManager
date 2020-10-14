@@ -75,6 +75,7 @@ router.post('/:groupId/Relation',Permit('Admin', 'Makas') , async (req, res, nex
 
 router.delete('/:groupId/Relation',Permit('Admin', 'Makas') , async (req, res, next) => {
     try{
+        console.log(req.body)
         let elements = {groupId:req.params.groupId, userList:req.body.userList}
         let result = await GroupHandler.DeleteRelation(elements);
         res.status(200).send(result);
