@@ -5,6 +5,12 @@ const Groups = require('./Groups/GroupsRoutes')
 const cors = require('cors')
 const {Authorize,ValidateUser, UserInvalidInputError}= require('commonframework')
 const {corsOptions} = require('./Common/config')
+const fs = require('fs');
+const https = require('https');
+const privateKey  = fs.readFileSync('/run/secrets/server.key', 'utf8');
+const certificate = fs.readFileSync('/run/secrets/server.crt', 'utf8');
+
+let credentials = {key: privateKey, cert: certificate};
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -36,7 +42,9 @@ function errHandler(err, req, res, next) {
 }
 app.use(errHandler);
 
-app.listen(3000, ()=>{
+let httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(3000, ()=>{
     console.log("listening");
 });
 
