@@ -10,6 +10,7 @@ let corsOptions =
                  'http://10.1.0.119:3000',
                  'http://10.1.0.119:80',
                  'http://10.1.0.119:443',
+                 'http://40.118.47.110',
       ],
         optionsSuccessStatus: 200
       };
